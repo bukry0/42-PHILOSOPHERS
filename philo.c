@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcili <bcili@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:10:33 by bcili             #+#    #+#             */
-/*   Updated: 2025/09/01 20:41:17 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/19 09:50:12 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	init_data(t_data *data, int argc, char **argv)
 		data->must_eat_count = -1;
 	if (data->num_philos <= 0 || data->num_philos > 200
 		|| data->time_to_die < 60 || data->time_to_eat < 60
-		|| data->time_to_sleep < 60)
+		|| data->time_to_sleep < 60 || !is_digit(argv, argc))
 		return (error_exit("Invalid argument(s)"));
 	data->dead = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);

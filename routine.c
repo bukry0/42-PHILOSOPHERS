@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcili <bcili@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:11:07 by bcili             #+#    #+#             */
-/*   Updated: 2025/09/01 18:53:19 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/19 12:19:40 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	print_status(t_philo *p, char *status)
 void	take_forks(t_philo *p)
 {
 	pthread_mutex_lock(&p->data->forks[p->id - 1]);
-	print_status(p, "has taken a fork");
 	pthread_mutex_lock(&p->data->forks[p->id % p->data->num_philos]);
 	print_status(p, "has taken a fork");
 }
