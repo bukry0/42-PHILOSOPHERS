@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:11:58 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/19 10:01:41 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/20 22:54:28 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,17 @@ long	get_timestamp_ms(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	print_death(t_philo *p, t_data *data, long now)
+{
+	pthread_mutex_lock(&data->print_mutex);
+	if (!(int)get_value_with_mutex(p, 0))
+	{
+		set_value_with_mutex(p, 0, 1);
+		printf("%ld %d died\n", now - get_value_with_mutex(p, 2), p->id);
+	}
+	pthread_mutex_unlock(&data->print_mutex);
 }
 
 int	error_exit(const char *msg)

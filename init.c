@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcili <bcili@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:11:29 by bcili             #+#    #+#             */
-/*   Updated: 2025/09/01 20:38:05 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/20 22:33:10 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	print_death(t_philo *p, t_data *data, long now)
-{
-	pthread_mutex_lock(&data->print_mutex);
-	if (!data->dead)
-	{
-		data->dead = 1;
-		printf("%ld %d died\n", now - p->last_meal, p->id);
-	}
-	pthread_mutex_unlock(&data->print_mutex);
-}
 
 t_philo	*init_philos(t_data *data)
 {
@@ -57,5 +46,27 @@ int	init_mutexes(t_data *data)
 	while (i < data->num_philos)
 		pthread_mutex_init(&data->forks[i++], NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
+	pthread_mutex_init(&data->dead_mutex, NULL);
+	pthread_mutex_init(&data->eat_mutex, NULL);
+	pthread_mutex_init(&data->meal_mutex, NULL);
+	return (0);
+}
+
+int	init_data(t_data *data, int argc, char **argv)
+{
+	data->num_philos = ft_atoi(argv[1]);
+	data->time_to_die = ft_atoi(argv[2]);
+	data->time_to_eat = ft_atoi(argv[3]);
+	data->time_to_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		data->must_eat_count = ft_atoi(argv[5]);
+	else
+		data->must_eat_count = -1;
+	if (data->num_philos <= 0 || data->num_philos > 200
+		|| data->time_to_die < 60 || data->time_to_eat < 60
+		|| data->time_to_sleep < 60 || !is_digit(argv, argc))
+		return (error_exit("Invalid argument(s)"));
+	data->dead = 0;
+	init_mutexes(data);
 	return (0);
 }

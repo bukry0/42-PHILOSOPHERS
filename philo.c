@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:10:33 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/19 09:50:12 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/20 18:40:21 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,6 @@ static void	cleanup(t_data *data, t_philo *philos)
 	pthread_mutex_destroy(&data->print_mutex);
 	free(data->forks);
 	free(philos);
-}
-
-static int	init_data(t_data *data, int argc, char **argv)
-{
-	int	i;
-
-	data->num_philos = ft_atoi(argv[1]);
-	data->time_to_die = ft_atoi(argv[2]);
-	data->time_to_eat = ft_atoi(argv[3]);
-	data->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
-		data->must_eat_count = ft_atoi(argv[5]);
-	else
-		data->must_eat_count = -1;
-	if (data->num_philos <= 0 || data->num_philos > 200
-		|| data->time_to_die < 60 || data->time_to_eat < 60
-		|| data->time_to_sleep < 60 || !is_digit(argv, argc))
-		return (error_exit("Invalid argument(s)"));
-	data->dead = 0;
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
-	if (!data->forks)
-		return (1);
-	i = -1;
-	while (++i < data->num_philos)
-		pthread_mutex_init(&data->forks[i], NULL);
-	pthread_mutex_init(&data->print_mutex, NULL);
-	return (0);
 }
 
 static int	start_threads(t_philo *philos, pthread_t *monitor)

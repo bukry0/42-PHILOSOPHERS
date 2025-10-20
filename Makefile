@@ -6,8 +6,9 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRC =	philo.c \
 		init.c \
-		routine.c \
 		monitor.c \
+		mutex_functions.c \
+		routine.c \
 		utils.c
 
 OBJ = $(SRC:.c=.o)
