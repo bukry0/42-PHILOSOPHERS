@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:12:15 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/20 22:04:18 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/23 00:57:28 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int		init_mutexes(t_data *data);
 void	*philo_routine(void *arg);
 void	take_forks(t_philo *p);
 void	put_forks(t_philo *p);
-void	print_status(t_philo *p, char *status);
 
 // Monitor
 void	*monitor_routine(void *arg);
@@ -63,9 +62,9 @@ int		ft_atoi(const char *str);
 long	get_timestamp_ms(void);
 int		error_exit(const char *msg);
 int		is_digit(char **argv, int argc);
-void	print_death(t_philo *p, t_data *data, long now);
 
 // Mutex Functions
+void	print_status(t_philo *p, char *status);
 long	get_value_with_mutex(t_philo *p, int index);
 void	set_value_with_mutex(t_philo *p, int index, long new_value);
 

@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:10:53 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/20 23:38:09 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/22 20:03:52 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,15 @@ static void	check_philo_death(t_philo *p, t_data *data)
 
 	now = get_timestamp_ms();
 	last_meal_time = get_value_with_mutex(p, 2);
-	if ((now - last_meal_time) > data->time_to_die)
+	if ((now - last_meal_time) >= data->time_to_die)
 	{
-		pthread_mutex_lock(&data->print_mutex);
-		print_death(p, data, now);
-		pthread_mutex_unlock(&data->print_mutex);
-		set_value_with_mutex(p, 0, 1); // dead = 1
-		pthread_exit(NULL);
+		if (!(int)get_value_with_mutex(p, 0))
+		{
+			set_value_with_mutex(p, 0, 1);
+			pthread_mutex_lock(&data->print_mutex);
+			printf("%ld %d died\n", now - data->start_time, p->id);
+			pthread_mutex_unlock(&data->print_mutex);
+		}
 	}
 }
 
@@ -100,7 +102,7 @@ void	*monitor_routine(void *arg)
 		}
 		if (check_all_ate(philos, data))
 			return (NULL);
-		usleep(1000);
+		usleep(data->time_to_die / 10 * 1000);
 	}
 	return (NULL);
 }
