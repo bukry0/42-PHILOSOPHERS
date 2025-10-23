@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:10:33 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/22 19:51:49 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/23 17:33:25 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ int	main(int argc, char **argv)
 		return (error_exit("Wrong number of arguments"));
 	if (init_data(&data, argc, argv))
 		return (1);
-	data.start_time = get_timestamp_ms();
 	philos = init_philos(&data);
 	if (!philos)
 		return (error_exit("Malloc failed"));
+	data.start_time = get_timestamp_ms();
 	if (start_threads(philos, &monitor))
 		return (1);
 	wait_threads(philos, &monitor, &data);

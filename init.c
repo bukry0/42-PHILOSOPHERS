@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:11:29 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/22 19:52:13 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/23 17:30:11 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_philo	*init_philos(t_data *data)
 	{
 		philos[i].id = i + 1;
 		philos[i].eat_count = 0;
-		philos[i].last_meal = data->start_time;
+		philos[i].last_meal = get_timestamp_ms();
 		philos[i].data = data;
 		i++;
 	}

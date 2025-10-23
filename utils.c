@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:11:58 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/22 20:17:29 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/23 23:29:21 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,15 @@ long	get_timestamp_ms(void)
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+void	ft_usleep(long time_ms)
+{
+	long	start_time;
+
+	start_time = get_timestamp_ms();
+	while ((get_timestamp_ms() - start_time) < time_ms)
+		usleep(500); 
 }
 
 int	error_exit(const char *msg)

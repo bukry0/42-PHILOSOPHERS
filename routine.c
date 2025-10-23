@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:11:07 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/23 00:57:03 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/24 00:08:08 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,26 @@ void	put_forks(t_philo *p)
 	pthread_mutex_unlock(&p->data->forks[p->id % p->data->num_philos]);
 }
 
+int	eating(t_philo *p)
+{
+	take_forks(p);
+	print_status(p, "is eating");
+	set_value_with_mutex(p, 2, get_timestamp_ms());
+	ft_usleep(p->data->time_to_eat);
+	pthread_mutex_lock(&p->data->eat_mutex);
+	p->eat_count++;
+	if (p->data->must_eat_count != -1
+		&& p->eat_count >= p->data->must_eat_count)
+	{
+		pthread_mutex_unlock(&p->data->eat_mutex);
+		put_forks(p);
+		return (0);
+	}
+	pthread_mutex_unlock(&p->data->eat_mutex);
+	put_forks(p);
+	return (1);
+}
+
 static void	*one_philo_routine(void *arg)
 {
 	t_philo	*p;
@@ -66,8 +86,6 @@ static void	*one_philo_routine(void *arg)
 void	*philo_routine(void *arg)
 {
 	t_philo	*p;
-	long	start_time_eat;
-	long	start_time_sleep;
 
 	p = (t_philo *)arg;
 	if (p->data->num_philos == 1)
@@ -78,21 +96,10 @@ void	*philo_routine(void *arg)
 			|| (int)get_value_with_mutex(p, 1) < p->data->must_eat_count))
 	{
 		print_status(p, "is thinking");
-		take_forks(p);
-		set_value_with_mutex(p, 2, get_timestamp_ms());
-		print_status(p, "is eating");
-		start_time_eat = get_timestamp_ms();
-		while ((get_timestamp_ms() - start_time_eat) < p->data->time_to_eat)
-			usleep(500);
-		set_value_with_mutex(p, 1, (int)get_value_with_mutex(p, 1) + 1);
-		if (p->data->must_eat_count != -1
-			&& (int)get_value_with_mutex(p, 1) >= p->data->must_eat_count)
-			return (put_forks(p), NULL);
-		put_forks(p);
+		if (!eating(p))
+			return (NULL);
 		print_status(p, "is sleeping");
-		start_time_sleep = get_timestamp_ms();
-		while ((get_timestamp_ms() - start_time_sleep) < p->data->time_to_sleep)
-			usleep(500);
+		ft_usleep(p->data->time_to_sleep);
 	}
 	return (NULL);
 }
