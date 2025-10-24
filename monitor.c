@@ -6,7 +6,7 @@
 /*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:10:53 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/24 00:11:01 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/24 11:57:18 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,17 @@ static void	print_sim_end(t_data *data)
 	printf(" %d ", data->must_eat_count);
 	printf("times. Simulation ended successfully.\n");
 	pthread_mutex_unlock(&data->print_mutex);
-	// pthread_mutex_lock(&data->dead_mutex);
-	// data->dead = 1;
-	// pthread_mutex_unlock(&data->dead_mutex);
 }
 
 static void	check_philo_death(t_philo *p, t_data *data)
 {
 	long	now;
 
+	if (data->must_eat_count != -1)
+	{
+		if (get_value_with_mutex(p, 1) >= data->must_eat_count)
+			return ;
+	}
 	pthread_mutex_lock(&data->meal_mutex);
 	now = get_timestamp_ms();
 	if ((now - p->last_meal) >= data->time_to_die)

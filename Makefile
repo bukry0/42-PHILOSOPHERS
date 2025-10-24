@@ -1,8 +1,8 @@
 NAME = philo
 
-CC = clang
+CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -pthread -g -fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra -pthread
 
 SRC =	philo.c \
 		init.c \
