@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcili <bcili@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/24 16:22:49 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/24 16:22:50 by bcili            ###   ########.fr       */
+/*   Created: 2025/10/24 18:05:48 by bcili             #+#    #+#             */
+/*   Updated: 2025/10/24 18:29:49 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ static void	cleanup(t_data *data, t_philo *philos)
 		i++;
 	}
 	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->dead_mutex);
+	pthread_mutex_destroy(&data->meal_mutex);
+	pthread_mutex_destroy(&data->eat_mutex);
 	free(data->forks);
 	free(philos);
 }
