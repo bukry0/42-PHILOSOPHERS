@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
+/*   By: bcili <bcili@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:10:53 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/24 11:57:18 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:19:43 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ static int	all_ate_enough(t_philo *philos, t_data *data)
 	return (1);
 }
 
-static void	print_sim_end(t_data *data)
-{
-	pthread_mutex_lock(&data->print_mutex);
-	printf("All philosophers ate at least");
-	printf(" %d ", data->must_eat_count);
-	printf("times. Simulation ended successfully.\n");
-	pthread_mutex_unlock(&data->print_mutex);
-}
-
 static void	check_philo_death(t_philo *p, t_data *data)
 {
 	long	now;
@@ -56,11 +47,13 @@ static void	check_philo_death(t_philo *p, t_data *data)
 		if (!data->dead)
 		{
 			data->dead = 1;
+			pthread_mutex_unlock(&data->dead_mutex);
 			pthread_mutex_lock(&data->print_mutex);
 			printf("%ld %d died\n", now - data->start_time, p->id);
 			pthread_mutex_unlock(&data->print_mutex);
 		}
-		pthread_mutex_unlock(&data->dead_mutex);
+		else
+			pthread_mutex_unlock(&data->dead_mutex);
 	}
 	pthread_mutex_unlock(&data->meal_mutex);
 }
@@ -68,10 +61,7 @@ static void	check_philo_death(t_philo *p, t_data *data)
 static int	check_all_ate(t_philo *philos, t_data *data)
 {
 	if (all_ate_enough(philos, data))
-	{
-		print_sim_end(data);
 		return (1);
-	}
 	return (0);
 }
 
@@ -86,7 +76,8 @@ void	*monitor_routine(void *arg)
 	while (!(int)get_value_with_mutex(&philos[0], 0))
 	{
 		i = 0;
-		while (i < data->num_philos && !(int)get_value_with_mutex(&philos[0], 0))
+		while (i < data->num_philos
+			&& !(int)get_value_with_mutex(&philos[0], 0))
 		{
 			check_philo_death(&philos[i], data);
 			i++;

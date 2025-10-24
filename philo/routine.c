@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
+/*   By: bcili <bcili@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 12:11:07 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/24 00:08:08 by bcili            ###   ########.fr       */
+/*   Updated: 2025/10/24 15:51:20 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void take_forks(t_philo *p)
+void	take_forks(t_philo *p)
 {
-	int left = p->id - 1;
-	int right = p->id % p->data->num_philos;
+	int	left;
+	int	right;
 
+	left = p->id - 1;
+	right = p->id % p->data->num_philos;
 	if (p->id % 2 == 0)
 	{
 		pthread_mutex_lock(&p->data->forks[right]);
@@ -70,18 +72,6 @@ static void	*one_philo_routine(void *arg)
 	set_value_with_mutex(p, 0, 1);
 	return (NULL);
 }
-
-// static void	*one_philo_routine(void *arg)
-// {
-// 	t_philo	*p;
-
-// 	p = (t_philo *)arg;
-// 	print_status(p, "is thinking");
-// 	usleep((p->data->time_to_die) * 1000);
-// 	print_status(p, "died");
-// 	set_value_with_mutex(p, 0, 1);
-// 	return (NULL);
-// }
 
 void	*philo_routine(void *arg)
 {

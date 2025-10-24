@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcili <buket.cili@student.42.fr>           +#+  +:+       +#+        */
+/*   By: bcili <bcili@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/01 12:11:58 by bcili             #+#    #+#             */
-/*   Updated: 2025/10/23 23:29:21 by bcili            ###   ########.fr       */
+/*   Created: 2025/10/24 16:24:17 by bcili             #+#    #+#             */
+/*   Updated: 2025/10/24 17:04:22 by bcili            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_usleep(long time_ms)
 
 	start_time = get_timestamp_ms();
 	while ((get_timestamp_ms() - start_time) < time_ms)
-		usleep(500); 
+		usleep(500);
 }
 
 int	error_exit(const char *msg)
